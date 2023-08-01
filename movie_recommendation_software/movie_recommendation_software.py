@@ -1,17 +1,10 @@
 import pandas as pd
-import glob
 import random
 from hash_map_class import HashMap
 
 
 #  CREATE DATA FILE FROM CSV
-files = glob.glob("imdb_top_1000.csv")
-df_list = []
-
-for filename in files:
-  data = pd.read_csv(filename)
-  df_list.append(data)
-imdb_data = pd.concat(df_list)
+imdb_data = pd.read_csv("imdb_top_1000.csv")
 
 
 #  HELPER FUNCTIONS
@@ -72,9 +65,7 @@ def follow_up(recs, hm, col, selection):
         new_selection = hm.retrieve(fav)[1]
       print("\nYou might also like...")
       for title in imdb_data.Series_Title:
-        if fav in title and fav != title:
-          print(title)
-        elif new_selection in hm.retrieve(title):
+        if new_selection in hm.retrieve(title):
           new_rec_list.append(title)
       for new_rec in random.sample(new_rec_list, 3):
         print(new_rec)
@@ -83,9 +74,7 @@ def follow_up(recs, hm, col, selection):
     else:
       print("\nYou might also like...")
       for title in imdb_data.Series_Title:
-        if fav in title and fav != title:
-          print(title)
-        elif selection in hm.retrieve(title):
+        if selection in hm.retrieve(title):
           new_rec_list.append(title)
       for new_rec in random.sample(new_rec_list, 3):
         print(new_rec)
@@ -120,6 +109,4 @@ def recommend_software():
   get_recommendation(imdb_hash_map, genres_column)
 
 
-
-#  TEST CODE
 recommend_software()
